@@ -123,5 +123,5 @@ prophecy-templates/
 
 ## Resources
 
-- [Somnia testnet explorer](https://somnia-testnet.socialscan.io)
+- [Somnia testnet explorer](https://shannon-explorer.somnia.network/)
 - [Somnia Discord](https://discord.gg/somnia) — ask for testnet STT in #faucet
