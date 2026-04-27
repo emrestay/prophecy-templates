@@ -212,5 +212,4 @@ This template is deliberately minimal. Before shipping a real product:
 - [`apps/00-minimal/app/page.tsx`](./app/page.tsx) — the canonical reference, single file
 - [`apps/01-sports/INTEGRATION.md`](../01-sports/INTEGRATION.md) — drop-in components for an existing UI
 - [`packages/sdk/src/actions/`](../../packages/sdk/src/actions/) — every SDK action's source, fully typed and commented
-- [Prophecy docs](https://prophecy.somnia.network) — protocol concepts, fees, market lifecycle
 - [Somnia Hacks Telegram](https://t.me/+s_oRMnGpOyQ3ODQ0) — testnet STT and integrator support
