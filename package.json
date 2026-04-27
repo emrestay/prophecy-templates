@@ -1,0 +1,36 @@
+{
+  "name": "prophecy-templates",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Standalone integration templates for the Prophecy prediction market protocol on Somnia testnet.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "echo 'Run a specific app, e.g. npm run dev -w apps/00-minimal'",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "deploy:venue": "tsx --env-file=.env scripts/deploy-venue.ts",
+    "smoke:balances": "tsx --env-file=.env scripts/smoke/00-check-balances.ts",
+    "smoke:diagnose": "tsx --env-file=.env scripts/smoke/_diagnose.ts",
+    "smoke:create": "tsx --env-file=.env scripts/smoke/01-create-market.ts",
+    "smoke:buy": "tsx --env-file=.env scripts/smoke/02-buy.ts",
+    "smoke:sell": "tsx --env-file=.env scripts/smoke/03-sell.ts",
+    "smoke:resolve": "tsx --env-file=.env scripts/smoke/04-resolve.ts",
+    "smoke:claim": "tsx --env-file=.env scripts/smoke/05-claim.ts"
+  },
+  "dependencies": {
+    "@prophecy-templates/sdk": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3",
+    "viem": "^2.21.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

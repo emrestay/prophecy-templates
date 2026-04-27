@@ -1,0 +1,25 @@
+{
+  "name": "@prophecy-templates/sdk",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Thin SDK wrapper around Prophecy protocol contracts for hackathon templates.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./abis": "./src/abis/index.ts",
+    "./addresses": "./src/addresses.ts",
+    "./chains": "./src/chains.ts",
+    "./actions": "./src/actions/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
