@@ -266,4 +266,3 @@ You need STT to create markets and place bets. Join the **[Somnia Hacks Telegram
 
 - [Somnia Hacks Telegram](https://t.me/+s_oRMnGpOyQ3ODQ0) — testnet STT, hackathon support
 - [Somnia testnet explorer](https://shannon-explorer.somnia.network)
-- [Prophecy docs](https://prophecy.somnia.network) — protocol concepts and lifecycle
