@@ -24,7 +24,7 @@ You create a market  →  users trade YES/NO shares
 ## Quickstart
 
 ```bash
-git clone https://github.com/somnia-network/prophecy-templates
+git clone https://github.com/emrestay/prophecy-templates
 cd prophecy-templates
 npm install
 ```
@@ -49,30 +49,28 @@ You need some testnet STT to create markets and place bets. DM the Somnia DevRel
 
 ## Integrating into your own app
 
-The `components/prophecy/` folder inside each context template is the copy-paste library:
+The `components/prophecy/` folder inside `apps/01-sports` is the copy-paste library:
 
 ```
-your-app/
-└── components/
-    └── prophecy/          ← copy this entire folder
-        ├── useProphecyMarket.ts   hook — live market state, 5s polling
-        ├── PredictionWidget.tsx   all-in-one odds + buy + claim widget
-        ├── MarketCard.tsx         display-only odds card
-        └── BetPanel.tsx           buy YES/NO panel
+apps/01-sports/components/prophecy/
+├── useProphecyMarket.ts   hook — live market state, 5s polling
+├── PredictionWidget.tsx   all-in-one odds + buy + claim widget
+├── MarketCard.tsx         display-only odds card
+└── BetPanel.tsx           buy YES/NO panel
 ```
 
-Then wire it up:
+Copy the entire `components/prophecy/` folder into your app, then:
 
 ```tsx
 import { PredictionWidget } from "@/components/prophecy/PredictionWidget";
 
-// In your match card, event card, token row, etc:
+// Drop into any card, row, or modal in your existing UI:
 <PredictionWidget marketId={yourMarketId} />
 ```
 
-See each template's `INTEGRATION.md` for a step-by-step guide.
+See [`apps/01-sports/INTEGRATION.md`](apps/01-sports/INTEGRATION.md) for a step-by-step guide.
 
-## Creating a market from your backend / script
+## Creating a market from your code
 
 ```ts
 import { createBinaryStringMarket } from "@prophecy-templates/sdk";
@@ -82,7 +80,7 @@ const result = await createBinaryStringMarket({
   publicClient,
   question: "Will Arsenal beat Man City?",
   prompt: "Did Arsenal beat Man City in the Premier League on May 10 2026? Answer yes or no.",
-  urls: ["bbc.com/sport/football"],   // public URL the AI agent will search
+  urls: ["bbc.com/sport/football"],   // public URL the AI agents will search
   winner: "yes",
   allowedResults: ["yes", "no"],
   resolveUrl: true,
@@ -107,7 +105,7 @@ prophecy-templates/
 ├── packages/sdk/          shared viem wrapper around Prophecy contracts
 ├── apps/
 │   ├── 00-minimal/        API reference (single-page Next.js app)
-│   └── 01-sports/         sports context app
+│   └── 01-sports/         sports context app + copy-paste prophecy/ components
 └── scripts/               venue deploy + market creation CLI helpers
 ```
 
