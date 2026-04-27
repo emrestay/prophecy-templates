@@ -1,4 +1,13 @@
-// COPY THIS FILE into your app at components/prophecy/MarketCard.tsx
+// 📋 COPY THIS FILE into your app at components/prophecy/MarketCard.tsx
+//
+// REQUIRES: components/prophecy/useProphecyMarket.ts (the hook)
+//
+// Usage:
+//   <MarketCard marketId={7090n} userAddress={address} />
+//
+// What it does: read-only odds card. No wallet logic, no buttons, no
+// state mutation. Pair with BetPanel if you want trading inside a
+// custom layout.
 "use client";
 
 import { MarketStatus, Outcome } from "@prophecy-templates/sdk";

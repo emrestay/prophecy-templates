@@ -2,6 +2,8 @@
 
 This guide walks you through grafting Prophecy prediction markets onto an existing sports (or any event-based) app. The `components/prophecy/` folder in this template is the copy-paste library — everything else is context to show how it fits together.
 
+> **Live demo**: <https://prophecy-templates-00-01-sports.vercel.app> — connect a wallet, create a market against a real match, place a bet.
+
 ## What this template shows
 
 A football scoreboard with a Prophecy prediction market embedded in every match card. Users can:
@@ -24,7 +26,9 @@ components/prophecy/
 └── BetPanel.tsx           standalone buy YES/NO panel
 ```
 
-Copy the entire folder into your project. These four files are the integration surface — you only need to touch the constants at the top of each file.
+Copy the entire folder into your project. Every file has a `📋 COPY THIS FILE` header at the top with its target path and dependency list — read those before you start.
+
+> **Required sibling file**: `lib/config.ts` exporting `NETWORK` and `VENUE_ID`. The widgets import from `@/lib/config` to keep environment switches (staging↔mainnet) in one place. Copy [`apps/01-sports/lib/config.ts`](./lib/config.ts) alongside the components — it's six lines.
 
 ### 2. The SDK
 
@@ -80,17 +84,21 @@ And your `globals.css` must start with:
 
 ### Network and venue ID
 
-At the top of `useProphecyMarket.ts` and `PredictionWidget.tsx`:
+These live in `lib/config.ts` — one place, every widget reads from it:
 
 ```ts
-// CUSTOMIZE: switch to "development" for the dev environment
-const NETWORK = "staging" as const;
+// lib/config.ts
+import type { ProphecyNetwork } from "@prophecy-templates/sdk";
 
-// CUSTOMIZE: match your venue and network settings
-const VENUE_ID = 54n;  // Somnia hackathon venue
+// CUSTOMIZE: switch to "development" for the dev environment
+export const NETWORK: ProphecyNetwork =
+  (process.env.NEXT_PUBLIC_PROPHECY_NETWORK as ProphecyNetwork) ?? "staging";
+
+// CUSTOMIZE: venue ID — 54 is the signerless hackathon venue on staging
+export const VENUE_ID = BigInt(process.env.NEXT_PUBLIC_PROPHECY_VENUE_ID ?? "54");
 ```
 
-`venueId = 54` is the pre-deployed signerless hackathon venue. You can use it directly — no setup required.
+`venueId = 54` is the pre-deployed signerless hackathon venue. Use it directly — no on-chain setup required, no operator key, no EIP-712 signing.
 
 ### The prediction question
 
@@ -241,9 +249,21 @@ Once created, markets go through these states:
 
 **Always handle Voided** — it's a legitimate outcome on staging (~1 in 30 markets). `PredictionWidget` already shows a "Claim Refund" button for voided markets.
 
+## Don't do this
+
+| ❌ Don't | Why |
+|---|---|
+| Call `CreatorResolvedMarket` directly | Not registered as a resolver on Somnia — your tx will revert |
+| Edit hardcoded values inside `components/prophecy/` files | All env-dependent values come from `lib/config.ts`. Edit one place |
+| Skip the VOIDED branch in your UI | ~3% of markets void when AI agents disagree. `PredictionWidget` already handles it; don't strip the logic out |
+| Pass an internal/auth-walled URL as your `prompt` source | Agents need to fetch it from the public internet. Use a sports news site, results API, or any open page |
+| Resolve trading windows tighter than 5 minutes | The AI committee timeout alone is 5 min — leave at least 15 minutes between `tradingEndTs` and `resolutionEndTs` |
+| Build a backend to track market state | Somnia's 200 ms blocks make chain-only polling fast enough. Add an indexer only if you need cross-market views per user |
+
 ## Getting testnet STT
 
-You need STT to create markets and place bets. Ask in the Somnia Discord (`#faucet`) and the DevRel team will send some.
+You need STT to create markets and place bets. Join the **[Somnia Hacks Telegram](https://t.me/+s_oRMnGpOyQ3ODQ0)** and ask — the DevRel team sends faucet drops directly.
 
-- [Somnia Discord](https://discord.gg/somnia)
-- [Somnia testnet explorer](https://somnia-testnet.socialscan.io)
+- [Somnia Hacks Telegram](https://t.me/+s_oRMnGpOyQ3ODQ0) — testnet STT, hackathon support
+- [Somnia testnet explorer](https://shannon-explorer.somnia.network)
+- [Prophecy docs](https://prophecy.somnia.network) — protocol concepts and lifecycle

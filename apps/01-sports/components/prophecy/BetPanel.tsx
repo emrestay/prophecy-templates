@@ -1,4 +1,16 @@
-// COPY THIS FILE into your app at components/prophecy/BetPanel.tsx
+// 📋 COPY THIS FILE into your app at components/prophecy/BetPanel.tsx
+//
+// REQUIRES:
+//   1. components/prophecy/useProphecyMarket.ts (the hook)
+//   2. lib/config.ts exporting `NETWORK` and `VENUE_ID`
+//   3. wagmi providers wrapped around your app
+//
+// Usage:
+//   <BetPanel marketId={7090n} />
+//
+// What it does: standalone YES/NO buy panel + claim button. Use this
+// when you want a smaller footprint than PredictionWidget (no header,
+// no odds banner — just the actions).
 "use client";
 
 import { buyNo, buyYes, MarketStatus, Outcome } from "@prophecy-templates/sdk";
@@ -6,10 +18,8 @@ import { useState } from "react";
 import { formatEther, parseEther, zeroAddress } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 import { prophecyClient, useProphecyMarket } from "./useProphecyMarket";
-
-// CUSTOMIZE: match your venue and network settings
-const VENUE_ID = 54n;
-const NETWORK = "staging" as const;
+// CUSTOMIZE: import NETWORK and VENUE_ID from your own config.
+import { NETWORK, VENUE_ID } from "@/lib/config";
 
 type WC = Parameters<typeof buyYes>[0]["walletClient"];
 

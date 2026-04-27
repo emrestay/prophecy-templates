@@ -1,4 +1,13 @@
-// COPY THIS FILE into your app at components/prophecy/useProphecyMarket.ts
+// 📋 COPY THIS FILE into your app at components/prophecy/useProphecyMarket.ts
+//
+// REQUIRES: a sibling `lib/config.ts` that exports `NETWORK`. See
+//           apps/01-sports/lib/config.ts in the template repo for the
+//           1-line file you need to copy alongside this one.
+//
+// What it does: subscribes to a single Prophecy market, polls every 5s,
+//               returns market + live odds + user position. Handles the
+//               post-resolution case where on-chain pools drain to 0 by
+//               caching the last valid price.
 "use client";
 
 import {
@@ -14,9 +23,9 @@ import {
 } from "@prophecy-templates/sdk";
 import { useEffect, useRef, useState } from "react";
 import { createPublicClient, http } from "viem";
-
-// CUSTOMIZE: switch to "development" for the dev environment
-const NETWORK = "staging" as const;
+// CUSTOMIZE: import NETWORK from your own config file. This lets you
+// switch staging↔mainnet from one place instead of editing every widget.
+import { NETWORK } from "@/lib/config";
 
 export const prophecyClient = createPublicClient({
   chain: somniaTestnet,

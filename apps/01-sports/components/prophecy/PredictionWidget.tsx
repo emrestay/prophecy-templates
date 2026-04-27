@@ -1,7 +1,18 @@
-// COPY THIS FILE into your app at components/prophecy/PredictionWidget.tsx
+// 📋 COPY THIS FILE into your app at components/prophecy/PredictionWidget.tsx
 //
-// Drop-in prediction market widget: shows live odds, YES/NO buy buttons,
-// and a claim button after resolution. One component, one hook call.
+// REQUIRES:
+//   1. components/prophecy/useProphecyMarket.ts (the hook)
+//   2. lib/config.ts exporting `NETWORK` and `VENUE_ID` (see template repo)
+//   3. wagmi providers wrapped around your app (see app/providers.tsx)
+//
+// Usage:
+//   import { PredictionWidget } from "@/components/prophecy/PredictionWidget";
+//   <PredictionWidget marketId={7090n} />
+//
+// What it does: all-in-one prediction market widget — live odds, YES/NO
+// buy buttons, and a Claim button after resolution. Handles the VOIDED
+// branch (~3% of markets on staging) — same Claim button refunds users
+// when AI agents can't reach consensus.
 "use client";
 
 import { buyNo, buyYes, claim, MarketStatus, Outcome } from "@prophecy-templates/sdk";
@@ -9,10 +20,9 @@ import { useState } from "react";
 import { formatEther, parseEther, zeroAddress } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 import { prophecyClient, useProphecyMarket } from "./useProphecyMarket";
-
-// CUSTOMIZE: match your venue and network settings
-const VENUE_ID = 54n;
-const NETWORK = "staging" as const;
+// CUSTOMIZE: import NETWORK and VENUE_ID from your own config.
+// Keeps environment switches (staging↔mainnet) in one place.
+import { NETWORK, VENUE_ID } from "@/lib/config";
 
 type WC = Parameters<typeof buyYes>[0]["walletClient"];
 
